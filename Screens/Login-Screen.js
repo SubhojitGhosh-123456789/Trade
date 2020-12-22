@@ -39,7 +39,27 @@ export default class RegisterScreen extends React.Component {
           <ScrollView style={{ width: "100%", height: "100%" }}>
             <View style={styles.inputView}>
               <View style={styles.modalView}>
-                <Text style={styles.logot}>Register</Text>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Text style={styles.logot}>Register</Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.setState({ isModalVisible: false });
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: 25,
+                        color: "white",
+                        textAlign: "center",
+                        marginTop: 20,
+                      }}
+                    >
+                      X
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+
                 <TextInput
                   placeholder="Name"
                   placeholderTextColor="gray"
@@ -350,6 +370,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    marginTop: 20,
   },
   loginBtn: {
     width: 200,
@@ -372,7 +393,7 @@ const styles = StyleSheet.create({
     color: "orange",
     textAlign: "center",
     marginTop: 20,
-    marginBottom: 20,
+    marginRight: 100,
   },
   loginBox: {
     borderWidth: 2,
