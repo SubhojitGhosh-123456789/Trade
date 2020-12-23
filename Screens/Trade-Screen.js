@@ -43,7 +43,7 @@ export default class TradeScreen extends React.Component {
         <ListItem.Content>
           <ListItem.Title>{item.ItemName}</ListItem.Title>
           <ListItem.Subtitle>{item.Description}</ListItem.Subtitle>
-          <Text>by {item.UserName}</Text>
+          <Text>Trade Offer by {item.UserName}</Text>
           <View>
             <TouchableOpacity style={styles.button}>
               <Text style={{ color: "white" }}>Trade With {item.UserName}</Text>
@@ -67,7 +67,7 @@ export default class TradeScreen extends React.Component {
           <View style={{ flex: 1 }}>
             {this.state.list.length === 0 ? (
               <View style={styles.subContainer}>
-                <Text>List Of Requested Books</Text>
+                <Text>Please Check Your Internet Connection</Text>
               </View>
             ) : (
               <FlatList

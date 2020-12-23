@@ -179,7 +179,7 @@ export default class RegisterScreen extends React.Component {
             ToastAndroid.SHORT
           );
           this.setState({ email: "", password: "" });
-          this.props.navigation.navigate("TabNavigator");
+          this.props.navigation.navigate("Drawer");
         }
       } catch (error) {
         switch (error.code) {
@@ -338,7 +338,7 @@ export default class RegisterScreen extends React.Component {
                 this.setState({ isModalVisible: true });
               }}
             >
-              <Text style={[styles.wText, { color: "blue" }]}> Register</Text>
+              <Text style={[styles.wText, { color: "yellow" }]}> Register</Text>
             </TouchableOpacity>
           </View>
         </View>
