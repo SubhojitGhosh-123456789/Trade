@@ -239,9 +239,6 @@ export default class RegisterScreen extends React.Component {
           this.setState({
             isLoading: false,
             displayName: "",
-            email: "",
-            password: "",
-            displayName: "",
             phone: "",
             address: "",
             isModalVisible: false,
