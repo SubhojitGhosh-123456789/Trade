@@ -45,7 +45,14 @@ export default class TradeScreen extends React.Component {
           <ListItem.Subtitle>{item.Description}</ListItem.Subtitle>
           <Text>Trade Offer by {item.UserName}</Text>
           <View>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.props.navigation.navigate("TradingScreen", {
+                  Details: item,
+                });
+              }}
+            >
               <Text style={{ color: "white" }}>Trade With {item.UserName}</Text>
             </TouchableOpacity>
           </View>

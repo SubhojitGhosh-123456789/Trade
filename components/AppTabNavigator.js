@@ -1,12 +1,13 @@
 import React from "react";
 import { Image } from "react-native";
 import { createBottomTabNavigator } from "react-navigation-tabs";
+import { AppStackNavigator } from "./AppStackNavigator";
 import TradeScreen from "../Screens/Trade-Screen";
 import RequestScreen from "../Screens/Request-Screen";
 
 export const AppTabNavigator = createBottomTabNavigator({
   Donate: {
-    screen: TradeScreen,
+    screen: AppStackNavigator,
     navigationOptions: {
       tabBarIcon: (
         <Image

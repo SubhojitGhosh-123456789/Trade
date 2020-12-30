@@ -15,6 +15,7 @@ export default class RequestScreen extends React.Component {
   constructor() {
     super();
     this.state = {
+      userId: firebase.auth().currentUser.email,
       username: firebase.auth().currentUser.displayName,
       itemName: "",
       description: "",
@@ -26,6 +27,7 @@ export default class RequestScreen extends React.Component {
   }
 
   request = async (itemName, description) => {
+    var email = this.state.userId;
     var username = this.state.username;
     var requestId = this.createRequestId();
     firebase.firestore().collection("RequestedItems").add({
@@ -33,6 +35,7 @@ export default class RequestScreen extends React.Component {
       ItemName: itemName,
       Description: description,
       RequestID: requestId,
+      Email: email,
     });
 
     this.setState({ itemName: "", description: "" });

@@ -1,0 +1,118 @@
+import React, { Component } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import { Card, Icon, ListItem, Header } from "react-native-elements";
+import db from "../config.js";
+import firebase from "firebase";
+import { ScrollView } from "react-native-gesture-handler";
+
+export default class MyTradesScreen extends React.Component {
+  static navigationOptions = { header: null };
+
+  constructor() {
+    super();
+    this.state = {
+      userId: firebase.auth().currentUser.email,
+      allTrades: [],
+    };
+  }
+
+  getAllTrades = async () => {
+    await firebase
+      .firestore()
+      .collection("TradedItems")
+      .where("TraderEmail", "==", this.state.userId)
+      .onSnapshot((snapshot) => {
+        var allTrades = snapshot.docs.map((document) => document.data());
+        this.setState({
+          allTrades: allTrades,
+        });
+      });
+  };
+  componentDidMount() {
+    this.getAllTrades();
+  }
+
+  keyExtractor = (item, index) => index.toString();
+
+  renderItem = ({ item, i }) => (
+    <ListItem key={i} bottomDivider>
+      <ListItem.Content>
+        <ListItem.Title>{item.ItemName}</ListItem.Title>
+        <ListItem.Subtitle>Requested By: {item.RequestedBy}</ListItem.Subtitle>
+        <ListItem.Subtitle>
+          Request Status: {item.RequestStatus}
+        </ListItem.Subtitle>
+      </ListItem.Content>
+      <View>
+        <TouchableOpacity>
+          <Icon
+            name="check-circle"
+            type="font-awesome"
+            color="magenta"
+            size={50}
+          />
+        </TouchableOpacity>
+      </View>
+    </ListItem>
+  );
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Header
+          centerComponent={{
+            text: "Trade Items",
+            style: { color: "white", fontSize: 17, marginTop: 10 },
+          }}
+        />
+        <ScrollView>
+          <View style={{ flex: 1 }}>
+            {this.state.allTrades.length === 0 ? (
+              <View style={styles.subtitle}>
+                <Text
+                  style={{ fontSize: 20, color: "white", alignSelf: "center" }}
+                >
+                  No Trades
+                </Text>
+              </View>
+            ) : (
+              <FlatList
+                keyExtractor={this.keyExtractor}
+                data={this.state.allTrades}
+                renderItem={this.renderItem}
+              />
+            )}
+          </View>
+        </ScrollView>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignContent: "center",
+  },
+
+  logost: {
+    fontWeight: "bold",
+    fontSize: 30,
+    color: "yellow",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  subContainer: {
+    flex: 1,
+    fontSize: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});

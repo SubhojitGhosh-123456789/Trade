@@ -57,12 +57,12 @@ export default class SettingsScreen extends React.Component {
 
     var user = firebase.auth().currentUser;
 
-    user.updateEmail(this.state.email);
-    user.updatePassword(this.state.password);
-
-    user.updateProfile({
-      displayName: this.state.username,
+    user.updateEmail(this.state.email).then(function () {
+      alert(
+        "Please Check your email for a conformation and try logging in after sometime"
+      );
     });
+    user.updatePassword(this.state.password);
 
     if (user) {
       console.log("Ok");
@@ -97,46 +97,41 @@ export default class SettingsScreen extends React.Component {
             <Card borderRadius={20} containerStyle={styles.card}>
               <Card.Title>Profile Details</Card.Title>
               <Card.Divider />
-              <TextInput
-                placeholder="Name"
-                placeholderTextColor="gray"
-                style={styles.inputBox}
-                value={this.state.username}
-                onChangeText={(text) => {
-                  this.setState({ username: text });
-                }}
-              />
+              <Text style={{ fontWeight: "bold" }}>
+                Name: {this.state.username}
+              </Text>
               <Card.Divider />
-              <TextInput
-                placeholder="Email"
-                placeholderTextColor="gray"
-                style={styles.inputBox}
-                value={this.state.email}
-                onChangeText={(text) => {
-                  this.setState({ email: text });
-                }}
-              />
+              <Text style={{ fontWeight: "bold" }}>
+                Email: {this.state.email}
+              </Text>
               <Card.Divider />
-              <TextInput
-                placeholder="Mobile Number"
-                placeholderTextColor="gray"
-                style={styles.inputBox}
-                value={this.state.phone}
-                onChangeText={(text) => {
-                  this.setState({ phone: text });
-                }}
-              />
+              <View style={{ flexDirection: "row" }}>
+                <Text style={{ fontWeight: "bold" }}>Mobile Number: </Text>
+                <TextInput
+                  placeholder="Mobile Number"
+                  placeholderTextColor="gray"
+                  style={styles.inputBox}
+                  value={this.state.phone}
+                  onChangeText={(text) => {
+                    this.setState({ phone: text });
+                  }}
+                />
+              </View>
               <Card.Divider />
-              <TextInput
-                placeholder="Password"
-                placeholderTextColor="gray"
-                style={styles.inputBox}
-                value={this.state.password}
-                onChangeText={(text) => {
-                  this.setState({ password: text });
-                }}
-              />
+              <View style={{ flexDirection: "row" }}>
+                <Text style={{ fontWeight: "bold" }}>Password: </Text>
+                <TextInput
+                  placeholder="Password"
+                  placeholderTextColor="gray"
+                  style={styles.inputBox}
+                  value={this.state.password}
+                  onChangeText={(text) => {
+                    this.setState({ password: text });
+                  }}
+                />
+              </View>
               <Card.Divider />
+              <Text style={{ fontWeight: "bold" }}>Address</Text>
               <TextInput
                 placeholder="Address"
                 placeholderTextColor="gray"
@@ -172,9 +167,10 @@ const styles = StyleSheet.create({
   inputBox: {
     borderWidth: 2,
     borderColor: "gray",
-    borderRadius: 10,
+    borderRadius: 5,
     textAlign: "center",
     backgroundColor: "white",
+    width: 170,
   },
   textArea: {
     borderWidth: 2,
