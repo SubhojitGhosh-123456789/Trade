@@ -17,6 +17,7 @@ export default class MyTradesScreen extends React.Component {
   constructor() {
     super();
     this.state = {
+      traderName: firebase.auth().currentUser.displayName,
       userId: firebase.auth().currentUser.email,
       allTrades: [],
     };
@@ -38,6 +39,76 @@ export default class MyTradesScreen extends React.Component {
     this.getAllTrades();
   }
 
+  sendBook = async (itemDetails) => {
+    if (itemDetails.RequestStatus === "Trader Interested") {
+      var requestStatus = "Exchanged";
+      await firebase
+        .firestore()
+        .collection("TradedItems")
+        .where("TraderEmail", "==", itemDetails.TraderEmail)
+        .where("RequestID", "==", itemDetails.RequestID)
+        .get()
+        .then((snapshot) => {
+          snapshot.forEach((doc) => {
+            console.log(doc.id);
+            firebase.firestore().collection("TradedItems").doc(doc.id).update({
+              RequestStatus: requestStatus,
+            });
+          });
+        });
+      this.sendNotification(itemDetails, itemDetails.RequestStatus);
+    } else {
+      alert("Changing Request Status To Trader Interested");
+      var requestStatus = "Trader Interested";
+      await firebase
+        .firestore()
+        .collection("TradedItems")
+        .where("TraderEmail", "==", itemDetails.TraderEmail)
+        .where("RequestID", "==", itemDetails.RequestID)
+        .get()
+        .then((snapshot) => {
+          snapshot.forEach((doc) => {
+            console.log(doc.id);
+            firebase.firestore().collection("TradedItems").doc(doc.id).update({
+              RequestStatus: requestStatus,
+            });
+          });
+        });
+
+      this.sendNotification(itemDetails, itemDetails.RequestStatus);
+    }
+  };
+
+  sendNotification = async (itemDetails, requestStatus) => {
+    var requestId = itemDetails.RequestedEmail;
+    var traderId = itemDetails.traderEmail;
+
+    await firebase
+      .firestore()
+      .collection("Notifications")
+      .where("TraderEmail", "==", traderId)
+      .where("RequestedEmail", "==", requestId)
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          var message = "";
+          if (requestStatus === "Exchanged") {
+            message =
+              this.state.traderName + " has Exchanged With You For The Item";
+          } else {
+            message =
+              this.state.traderName +
+              " has Shown Interest In Exchanging The Item";
+          }
+          firebase.firestore().collection("Notifications").doc(doc.id).update({
+            Message: message,
+            NotificationStatus: "Unread",
+            Date: firebase.firestore.FieldValue.serverTimestamp(),
+          });
+        });
+      });
+  };
+
   keyExtractor = (item, index) => index.toString();
 
   renderItem = ({ item, i }) => (
@@ -50,7 +121,11 @@ export default class MyTradesScreen extends React.Component {
         </ListItem.Subtitle>
       </ListItem.Content>
       <View>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            this.sendBook(item);
+          }}
+        >
           <Icon
             name="check-circle"
             type="font-awesome"

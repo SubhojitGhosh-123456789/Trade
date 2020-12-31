@@ -67,6 +67,7 @@ export default class TradingScreen extends React.Component {
       ItemName: this.state.itemname,
       RequestedBy: this.state.username,
       RequestedEmail: this.state.email,
+      RequestID: this.state.requestId,
       Trader: this.state.donor,
       TraderEmail: this.state.userEmail,
       RequestStatus: "Trader Interested",
@@ -75,6 +76,27 @@ export default class TradingScreen extends React.Component {
     this.props.navigation.goBack();
 
     ToastAndroid.show("Bartered Successfully", ToastAndroid.SHORT);
+  };
+
+  addNotification = async () => {
+    var message =
+      this.state.donor +
+      " has shown interest in exchanging the item- " +
+      this.state.itemname;
+    await firebase.firestore().collection("Notifications").add({
+      BookName: this.state.itemname,
+      RequestedBy: this.state.username,
+      RequestedEmail: this.state.email,
+      Donor: this.state.donor,
+      DonorEmail: this.state.userEmail,
+      Date: firebase.firestore.FieldValue.serverTimestamp(),
+      NotificationStatus: "Unread",
+      Message: message,
+    });
+
+    this.props.navigation.goBack();
+
+    ToastAndroid.show("Shown Interest Successfully", ToastAndroid.SHORT);
   };
 
   render() {
@@ -119,6 +141,7 @@ export default class TradingScreen extends React.Component {
                   style={styles.loginBtn}
                   onPress={() => {
                     this.updateTradeStatus();
+                    this.addNotification();
                     this.props.navigation.navigate("MyTradesScreen");
                   }}
                 >
