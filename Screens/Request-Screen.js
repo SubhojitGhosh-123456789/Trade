@@ -10,6 +10,7 @@ import {
 import db from "../config";
 import firebase from "firebase";
 import { Header, Card } from "react-native-elements";
+import MyHeader from "../components/AppHeader";
 
 export default class RequestScreen extends React.Component {
   constructor() {
@@ -47,12 +48,7 @@ export default class RequestScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Header
-          centerComponent={{
-            text: "Request Exchange",
-            style: { color: "white", fontSize: 17, marginTop: 10 },
-          }}
-        />
+        <MyHeader title="Request Item" navigation={this.props.navigation} />
         <View>
           <Card>
             <Card.Title>Hello {this.state.username}!!</Card.Title>

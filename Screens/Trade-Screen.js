@@ -10,6 +10,7 @@ import db from "../config";
 import firebase from "firebase";
 import { ListItem, Header } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
+import MyHeader from "../components/AppHeader";
 
 export default class TradeScreen extends React.Component {
   constructor() {
@@ -64,12 +65,7 @@ export default class TradeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Header
-          centerComponent={{
-            text: "Find Exchange",
-            style: { color: "white", fontSize: 17, marginTop: 10 },
-          }}
-        />
+        <MyHeader title="Find Barters" navigation={this.props.navigation} />
         <ScrollView>
           <View style={{ flex: 1 }}>
             {this.state.list.length === 0 ? (

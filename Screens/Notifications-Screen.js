@@ -4,6 +4,7 @@ import { ListItem, Icon, Header } from "react-native-elements";
 import db from "../config";
 import firebase from "firebase";
 import { ScrollView } from "react-native-gesture-handler";
+import MyHeader from "../components/AppHeader";
 
 export default class NotificationsScreen extends Component {
   constructor(props) {
@@ -62,12 +63,7 @@ export default class NotificationsScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Header
-          centerComponent={{
-            text: "Notifications",
-            style: { color: "white", fontSize: 17, marginTop: 10 },
-          }}
-        />
+        <MyHeader title="Notifications" navigation={this.props.navigation} />
         <ScrollView>
           <View>
             {this.state.allNotifications.length === 0 ? (

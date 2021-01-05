@@ -4,6 +4,7 @@ import { Header, Card } from "react-native-elements";
 import db from "../config";
 import firebase from "firebase";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import MyHeader from "../components/AppHeader";
 
 export default class SettingsScreen extends React.Component {
   constructor() {
@@ -80,12 +81,7 @@ export default class SettingsScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Header
-          centerComponent={{
-            text: "Settings",
-            style: { color: "white", fontSize: 17, marginTop: 10 },
-          }}
-        />
+        <MyHeader title="Settings" navigation={this.props.navigation} />
         <ScrollView>
           <View
             style={{

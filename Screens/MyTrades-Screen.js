@@ -9,6 +9,7 @@ import {
 import { Card, Icon, ListItem, Header } from "react-native-elements";
 import db from "../config.js";
 import firebase from "firebase";
+import MyHeader from "../components/AppHeader";
 import { ScrollView } from "react-native-gesture-handler";
 
 export default class MyTradesScreen extends React.Component {
@@ -92,7 +93,7 @@ export default class MyTradesScreen extends React.Component {
       .then((snapshot) => {
         snapshot.forEach((doc) => {
           var message = "";
-          if (requestStatus === "Exchanged") {
+          if (requestStatus !== "Exchanged") {
             message =
               this.state.traderName + " has Exchanged With You For The Item";
           } else {
@@ -140,12 +141,7 @@ export default class MyTradesScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Header
-          centerComponent={{
-            text: "Trade Items",
-            style: { color: "white", fontSize: 17, marginTop: 10 },
-          }}
-        />
+        <MyHeader title="My Trades" navigation={this.props.navigation} />
         <ScrollView>
           <View style={{ flex: 1 }}>
             {this.state.allTrades.length === 0 ? (
