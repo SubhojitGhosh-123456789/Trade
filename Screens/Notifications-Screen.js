@@ -5,6 +5,7 @@ import db from "../config";
 import firebase from "firebase";
 import { ScrollView } from "react-native-gesture-handler";
 import MyHeader from "../components/AppHeader";
+import AppSwipelist from "../components/AppSwipelist";
 
 export default class NotificationsScreen extends Component {
   constructor(props) {
@@ -52,7 +53,7 @@ export default class NotificationsScreen extends Component {
         <Icon name="book" type="font-awesome" color="#696969" />
         <ListItem.Content>
           <ListItem.Title titleStyle={{ color: "black", fontWeight: "bold" }}>
-            {item.BookName}
+            {item.ItemName}
           </ListItem.Title>
           <ListItem.Subtitle>{item.Message}</ListItem.Subtitle>
         </ListItem.Content>
@@ -86,11 +87,7 @@ export default class NotificationsScreen extends Component {
                 </Text>
               </View>
             ) : (
-              <FlatList
-                keyExtractor={this.keyExtractor}
-                data={this.state.allNotifications}
-                renderItem={this.renderItem}
-              />
+              <AppSwipelist allNotifications={this.state.allNotifications} />
             )}
           </View>
         </ScrollView>

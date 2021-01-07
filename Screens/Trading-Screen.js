@@ -84,11 +84,11 @@ export default class TradingScreen extends React.Component {
       " has shown interest in exchanging the item- " +
       this.state.itemname;
     await firebase.firestore().collection("Notifications").add({
-      BookName: this.state.itemname,
+      ItemName: this.state.itemname,
       RequestedBy: this.state.username,
       RequestedEmail: this.state.email,
-      Donor: this.state.donor,
-      DonorEmail: this.state.userEmail,
+      Trader: this.state.donor,
+      TraderEmail: this.state.userEmail,
       Date: firebase.firestore.FieldValue.serverTimestamp(),
       NotificationStatus: "Unread",
       Message: message,
