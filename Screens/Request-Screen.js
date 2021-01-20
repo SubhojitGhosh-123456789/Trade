@@ -20,6 +20,15 @@ export default class RequestScreen extends React.Component {
       username: firebase.auth().currentUser.displayName,
       itemName: "",
       description: "",
+
+      isItemRequestActive: false,
+
+      requestedItemName: "",
+      requestedItemStatus: "",
+      requestedEmail: "",
+      requestId: "",
+      requesteddocId: "",
+      userDocID: "",
     };
   }
 
@@ -37,6 +46,7 @@ export default class RequestScreen extends React.Component {
       Description: description,
       RequestID: requestId,
       Email: email,
+      ItemStatus: "Requested",
     });
 
     this.setState({ itemName: "", description: "" });
@@ -44,55 +54,230 @@ export default class RequestScreen extends React.Component {
       "Your Request Has Been Submitted Successfully",
       ToastAndroid.SHORT
     );
+
+    this.setState({
+      isItemRequestActive: true,
+    });
+
+    firebase
+      .firestore()
+      .collection("Users")
+      .where("Email", "==", this.state.userId)
+      .onSnapshot((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          firebase.firestore().collection("Users").doc(doc.id).update({
+            isItemRequestActive: this.state.isItemRequestActive,
+          });
+        });
+      });
+
+    this.setState({ itemName: "", description: "" });
+    ToastAndroid.show(
+      "Your Request Has Been Submitted Successfully",
+      ToastAndroid.SHORT
+    );
+
+    await this.getItemRequest();
+  };
+
+  getisItemRequestActive = () => {
+    firebase
+      .firestore()
+      .collection("Users")
+      .where("Email", "==", this.state.userId)
+      .onSnapshot((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          var isItemRequestActive = doc.data().isItemRequestActive;
+          this.setState({
+            isItemRequestActive: isItemRequestActive,
+            userDocID: doc.id,
+          });
+        });
+      });
+  };
+
+  getItemRequest = () => {
+    firebase
+      .firestore()
+      .collection("RequestedItems")
+      .where("Email", "==", this.state.userId)
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          if (doc.data().ItemStatus === "Requested") {
+            this.setState({
+              requestId: doc.data().RequestID,
+              requestedItemName: doc.data().ItemName,
+              requestedItemStatus: doc.data().ItemStatus,
+              requesteddocId: doc.id,
+              requestedEmail: doc.data().Email,
+            });
+          }
+        });
+      });
+  };
+
+  receivedItems = async (requestedItemName) => {
+    var userId = this.state.userId;
+    var requestId = this.state.requestId;
+    await firebase.firestore().collection("RecievedItems").add({
+      Email: userId,
+      ItemName: requestedItemName,
+      RequestID: requestId,
+      ItemStatus: "Received",
+    });
+  };
+
+  sendNotification = async () => {
+    await firebase
+      .firestore()
+      .collection("Users")
+      .where("Email", "==", this.state.userId)
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          var name = doc.data().Name;
+
+          firebase
+            .firestore()
+            .collection("Notifications")
+            .where("RequestID", "==", this.state.requestId)
+            .get()
+            .then((snapshot) => {
+              snapshot.forEach((doc) => {
+                var donor = doc.data().Trader;
+                var donorEmail = doc.data().TraderEmail;
+                var itemName = doc.data().ItemName;
+
+                firebase
+                  .firestore()
+                  .collection("Notifications")
+                  .add({
+                    Name: donor,
+                    RequestedEmail: donorEmail,
+                    Message: name + " Has Received the Item " + itemName,
+                    NotificationStatus: "Unread",
+                    ItemName: itemName,
+                  });
+              });
+            });
+        });
+      });
+  };
+
+  componentDidMount() {
+    this.getItemRequest();
+    this.getisItemRequestActive();
+  }
+
+  updateItemRequestStatus = async () => {
+    await firebase
+      .firestore()
+      .collection("RequestedItems")
+      .doc(this.state.requesteddocId)
+      .update({
+        ItemStatus: "Recieved",
+      });
+
+    this.setState({
+      isItemRequestActive: false,
+    });
+
+    await firebase
+      .firestore()
+      .collection("Users")
+      .where("Email", "==", this.state.userId)
+      .onSnapshot((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          firebase.firestore().collection("Users").doc(doc.id).update({
+            isItemRequestActive: this.state.isItemRequestActive,
+          });
+        });
+      });
   };
   render() {
-    return (
-      <View style={styles.container}>
-        <MyHeader title="Request Item" navigation={this.props.navigation} />
-        <View>
-          <Card>
-            <Card.Title>Hello {this.state.username}!!</Card.Title>
-            <Text style={{ textAlign: "center" }}>
-              Can You Please Enter These Details To Request An Exchange?
-            </Text>
-          </Card>
-
-          <TextInput
-            style={styles.formTextInput}
-            placeholder={"Enter The Item Name"}
-            onChangeText={(text) => {
-              this.setState({
-                itemName: text,
-              });
-            }}
-            value={this.state.itemName}
-          />
-
-          <TextInput
-            style={[styles.formTextInput, { height: 200, width: "90%" }]}
-            multiline
-            numberOfLines={8}
-            placeholder={"Description Of The Item"}
-            onChangeText={(text) => {
-              this.setState({
-                description: text,
-              });
-            }}
-            value={this.state.description}
-          />
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              this.request(this.state.itemName, this.state.description);
-            }}
-          >
-            <Text style={{ color: "white", fontWeight: "bold" }}>
-              Request Exchange
-            </Text>
-          </TouchableOpacity>
+    if (this.state.isItemRequestActive === true) {
+      return (
+        <View style={styles.container}>
+          <MyHeader title="Request Item" navigation={this.props.navigation} />
+          <View>
+            <Card>
+              <Card.Title>Item Name: {this.state.requestedItemName}</Card.Title>
+              <Card.Title>
+                Item Status: {this.state.requestedItemStatus}
+              </Card.Title>
+              <TouchableOpacity
+                style={{
+                  borderWidth: 1,
+                  borderColor: "orange",
+                  backgroundColor: "orange",
+                  width: 300,
+                  alignSelf: "center",
+                  alignItems: "center",
+                  height: 30,
+                  marginTop: 30,
+                }}
+                onPress={() => {
+                  this.sendNotification();
+                  this.updateItemRequestStatus();
+                  this.receivedItems(this.state.requestedItemName);
+                }}
+              >
+                <Text>I Have Recieved The Item</Text>
+              </TouchableOpacity>
+            </Card>
+          </View>
         </View>
-      </View>
-    );
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          <MyHeader title="Request Item" navigation={this.props.navigation} />
+          <View>
+            <Card>
+              <Card.Title>Hello {this.state.username}!!</Card.Title>
+              <Text style={{ textAlign: "center" }}>
+                Can You Please Enter These Details To Request An Exchange?
+              </Text>
+            </Card>
+
+            <TextInput
+              style={styles.formTextInput}
+              placeholder={"Enter The Item Name"}
+              onChangeText={(text) => {
+                this.setState({
+                  itemName: text,
+                });
+              }}
+              value={this.state.itemName}
+            />
+
+            <TextInput
+              style={[styles.formTextInput, { height: 200, width: "90%" }]}
+              multiline
+              numberOfLines={8}
+              placeholder={"Description Of The Item"}
+              onChangeText={(text) => {
+                this.setState({
+                  description: text,
+                });
+              }}
+              value={this.state.description}
+            />
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.request(this.state.itemName, this.state.description);
+              }}
+            >
+              <Text style={{ color: "white", fontWeight: "bold" }}>
+                Request Exchange
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    }
   }
 }
 

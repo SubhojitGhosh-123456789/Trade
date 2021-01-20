@@ -223,6 +223,7 @@ export default class LoginScreen extends React.Component {
         Password: this.state.password,
         Phone: this.state.phone,
         Address: this.state.address,
+        isItemRequestActive: false,
       });
 
       firebase

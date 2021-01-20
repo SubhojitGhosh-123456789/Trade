@@ -7,6 +7,7 @@ import SettingsScreen from "../Screens/Settings-Screen";
 import MyTradesScreen from "../Screens/MyTrades-Screen";
 import NotificationsScreen from "../Screens/Notifications-Screen";
 import { Icon } from "react-native-elements";
+import RecievedItemsScreen from "../Screens/RecievedItems-Screen";
 
 export const AppDrawer = createDrawerNavigator(
   {
@@ -110,6 +111,23 @@ export const AppDrawer = createDrawerNavigator(
             }}
           >
             Notifications
+          </Text>
+        ),
+      },
+    },
+    Recieved: {
+      screen: RecievedItemsScreen,
+      navigationOptions: {
+        drawerLabel: (
+          <Text
+            style={{
+              color: "white",
+              fontWeight: "bold",
+              fontSize: 20,
+              marginBottom: 20,
+            }}
+          >
+            Recieved Items
           </Text>
         ),
       },
