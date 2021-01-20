@@ -93,13 +93,13 @@ export default class MyTradesScreen extends React.Component {
       .then((snapshot) => {
         snapshot.forEach((doc) => {
           var message = "";
-          if (requestStatus !== "Exchanged") {
-            message =
-              this.state.traderName + " has Exchanged With You For The Item";
-          } else {
+          if (requestStatus === "Exchanged") {
             message =
               this.state.traderName +
               " has Shown Interest In Exchanging The Item";
+          } else {
+            message =
+              this.state.traderName + " has Exchanged With You For The Item";
           }
           firebase.firestore().collection("Notifications").doc(doc.id).update({
             Message: message,

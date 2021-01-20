@@ -9,19 +9,90 @@ import {
 } from "react-native";
 import { DrawerItems } from "react-navigation-drawer";
 import SettingsScreen from "../Screens/Settings-Screen";
+import * as ImagePicker from "expo-image-picker";
+import { Avatar } from "react-native-elements";
 import db from "../config";
 import firebase from "firebase";
 
 export default class SideBar extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      image: "#",
+      userId: firebase.auth().currentUser.email,
+    };
+  }
+
+  selectPicture = async () => {
+    const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!cancelled) {
+      this.uploadImage(uri, this.state.userId);
+      this.setState({ image: uri });
+    }
+  };
+
+  uploadImage = async (uri, imageName) => {
+    var response = await fetch(uri);
+    var blob = await response.blob();
+
+    var ref = firebase
+      .storage()
+      .ref()
+      .child("UserProfiles/" + imageName);
+    return ref.put(blob).then((response) => {
+      this.fetchImage(imageName);
+    });
+  };
+
+  fetchImage = (imageName) => {
+    var storageRef = firebase
+      .storage()
+      .ref()
+      .child("UserProfiles/" + imageName);
+    storageRef
+      .getDownloadURL()
+      .then((url) => {
+        this.setState({ image: url });
+      })
+      .catch((error) => {
+        this.setState({ image: "#" });
+      });
+  };
+
+  componentDidMount() {
+    this.fetchImage(this.state.userId);
+  }
+
   render() {
     console.log(firebase.auth().currentUser.displayName);
     return (
-      <View style={{ flex: 1 }}>
-        <Image
-          source={require("../assets/draw.jpg")}
-          style={{ width: "100%", height: 200 }}
-        />
-        <View style={{ backgroundColor: "#1182C6" }}>
+      <View style={{ flex: 1, backgroundColor: "#235e71" }}>
+        <View
+          style={{
+            backgroundColor: "#33867E",
+            marginTop: 30,
+            alignItems: "center",
+          }}
+        >
+          <Avatar
+            rounded
+            source={{ uri: this.state.image }}
+            size={150}
+            onPress={() => {
+              this.selectPicture();
+            }}
+            containerStyle={styles.imageContainer}
+            showEditButton
+          />
+        </View>
+
+        <View style={{ backgroundColor: "#33867E", alignItems: "center" }}>
           <Text style={styles.displayText}>
             Hello {firebase.auth().currentUser.displayName}
           </Text>
@@ -83,5 +154,11 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: "white",
     margin: 20,
+  },
+  imageContainer: {
+    backgroundColor: "#1182C6",
+    borderRadius: 100,
+    alignSelf: "center",
+    marginTop: 20,
   },
 });
