@@ -20,6 +20,7 @@ export default class RequestScreen extends React.Component {
       username: firebase.auth().currentUser.displayName,
       itemName: "",
       description: "",
+      value: "",
 
       isItemRequestActive: false,
 
@@ -29,6 +30,11 @@ export default class RequestScreen extends React.Component {
       requestId: "",
       requesteddocId: "",
       userDocID: "",
+      requestedItemValue: "",
+
+      itemValue: "",
+      currencyCode: "",
+      itemPrice: "",
     };
   }
 
@@ -40,6 +46,36 @@ export default class RequestScreen extends React.Component {
     var email = this.state.userId;
     var username = this.state.username;
     var requestId = this.createRequestId();
+
+    await firebase
+      .firestore()
+      .collection("Users")
+      .where("Email", "==", this.state.userId)
+      .onSnapshot((data) => {
+        data.forEach((doc) => {
+          this.setState({
+            currencyCode: doc.data().CurrencyCode,
+          });
+        });
+      });
+
+    fetch(
+      "http://data.fixer.io/api/latest?access_key=a0994a85d21c529ccb449f80192c4a4c"
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseData) => {
+        var currencyCode = this.state.currencyCode;
+        var currency = responseData.rates[currencyCode];
+        console.log(this.state.itemValue * currency);
+        var itemPrice = this.state.itemValue * currency;
+        this.setState({
+          itemValue: itemPrice,
+          itemPrice: itemPrice,
+        });
+      });
+
     firebase.firestore().collection("RequestedItems").add({
       UserName: username,
       ItemName: itemName,
@@ -47,9 +83,10 @@ export default class RequestScreen extends React.Component {
       RequestID: requestId,
       Email: email,
       ItemStatus: "Requested",
+      ItemValue: this.state.itemPrice,
     });
 
-    this.setState({ itemName: "", description: "" });
+    this.setState({ itemName: "", description: "", ItemValue: "" });
     ToastAndroid.show(
       "Your Request Has Been Submitted Successfully",
       ToastAndroid.SHORT
@@ -70,8 +107,6 @@ export default class RequestScreen extends React.Component {
           });
         });
       });
-
-    this.setState({ itemName: "", description: "" });
     ToastAndroid.show(
       "Your Request Has Been Submitted Successfully",
       ToastAndroid.SHORT
@@ -111,6 +146,7 @@ export default class RequestScreen extends React.Component {
               requestedItemStatus: doc.data().ItemStatus,
               requesteddocId: doc.id,
               requestedEmail: doc.data().Email,
+              requestedItemValue: doc.data().ItemValue,
             });
           }
         });
@@ -195,6 +231,7 @@ export default class RequestScreen extends React.Component {
         });
       });
   };
+
   render() {
     if (this.state.isItemRequestActive === true) {
       return (
@@ -205,6 +242,9 @@ export default class RequestScreen extends React.Component {
               <Card.Title>Item Name: {this.state.requestedItemName}</Card.Title>
               <Card.Title>
                 Item Status: {this.state.requestedItemStatus}
+              </Card.Title>
+              <Card.Title>
+                Item Value: {this.state.requestedItemValue}
               </Card.Title>
               <TouchableOpacity
                 style={{
@@ -253,7 +293,20 @@ export default class RequestScreen extends React.Component {
             />
 
             <TextInput
-              style={[styles.formTextInput, { height: 200, width: "90%" }]}
+              style={styles.formTextInput}
+              placeholder={"Value Of The Item In Euros(£)"}
+              maxLength={8}
+              keyboardType={"numeric"}
+              onChangeText={(text) => {
+                this.setState({
+                  itemValue: text,
+                });
+              }}
+              value={this.state.itemValue}
+            />
+
+            <TextInput
+              style={[styles.formTextInput, { height: 150, width: "90%" }]}
               multiline
               numberOfLines={8}
               placeholder={"Description Of The Item"}
@@ -264,6 +317,7 @@ export default class RequestScreen extends React.Component {
               }}
               value={this.state.description}
             />
+
             <TouchableOpacity
               style={styles.button}
               onPress={() => {

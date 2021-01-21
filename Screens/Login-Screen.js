@@ -9,6 +9,7 @@ import {
   ToastAndroid,
   Modal,
   Image,
+  Picker,
 } from "react-native";
 import db from "../config";
 import firebase from "firebase";
@@ -24,6 +25,7 @@ export default class LoginScreen extends React.Component {
       phone: "",
       isLoading: false,
       isModalVisible: false,
+      currencyCode: "",
     };
   }
 
@@ -135,6 +137,27 @@ export default class LoginScreen extends React.Component {
                     borderColor: "gray",
                     color: "gray",
                     backgroundColor: "white",
+                    borderRadius: 25,
+                    height: 50,
+                    width: "90%",
+                    textAlign: "center",
+                    marginTop: 30,
+                  }}
+                  placeholder={"Country Currency Code"}
+                  maxLength={3}
+                  onChangeText={(text) => {
+                    this.setState({
+                      currencyCode: text,
+                    });
+                  }}
+                />
+
+                <TextInput
+                  style={{
+                    borderWidth: 1,
+                    borderColor: "gray",
+                    color: "gray",
+                    backgroundColor: "white",
                     borderRadius: 10,
                     width: "95%",
                     textAlign: "center",
@@ -151,6 +174,7 @@ export default class LoginScreen extends React.Component {
                   }}
                   value={this.state.address}
                 />
+
                 <View style={styles.inputView}>
                   <TouchableOpacity
                     style={styles.loginBtn}
@@ -224,6 +248,7 @@ export default class LoginScreen extends React.Component {
         Phone: this.state.phone,
         Address: this.state.address,
         isItemRequestActive: false,
+        CurrencyCode: this.state.currencyCode,
       });
 
       firebase

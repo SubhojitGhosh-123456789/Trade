@@ -21,6 +21,7 @@ export default class TradingScreen extends React.Component {
       requestId: this.props.navigation.getParam("Details")["RequestID"],
       username: this.props.navigation.getParam("Details")["UserName"],
       itemname: this.props.navigation.getParam("Details")["ItemName"],
+      itemvalue: this.props.navigation.getParam("Details")["ItemValue"],
       description: this.props.navigation.getParam("Details")["Description"],
       address: "",
       phone: "",
@@ -122,6 +123,7 @@ export default class TradingScreen extends React.Component {
               <Card.Title>Item Request Information</Card.Title>
               <Card.Divider />
               <Card.Title>Item Name: {this.state.itemname}</Card.Title>
+              <Card.Title>Item Value: {this.state.itemvalue}</Card.Title>
               <Card.Title>Description: {this.state.description}</Card.Title>
               <Card.Divider />
               <Card.Title>Name: {this.state.username}</Card.Title>
