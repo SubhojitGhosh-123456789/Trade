@@ -8,6 +8,7 @@ import MyTradesScreen from "../Screens/MyTrades-Screen";
 import NotificationsScreen from "../Screens/Notifications-Screen";
 import { Icon } from "react-native-elements";
 import RecievedItemsScreen from "../Screens/RecievedItems-Screen";
+import { RFValue } from "react-native-responsive-fontsize";
 
 export const AppDrawer = createDrawerNavigator(
   {
@@ -20,7 +21,7 @@ export const AppDrawer = createDrawerNavigator(
             size={24}
             type="font-awesome"
             color="white"
-            containerStyle={{ marginBottom: 20 }}
+            containerStyle={{ marginBottom: RFValue(34) }}
           />
         ),
         drawerLabel: (
@@ -29,7 +30,7 @@ export const AppDrawer = createDrawerNavigator(
               color: "white",
               fontWeight: "bold",
               fontSize: 20,
-              marginBottom: 20,
+              marginBottom: RFValue(34),
             }}
           >
             Home
@@ -46,7 +47,7 @@ export const AppDrawer = createDrawerNavigator(
             size={24}
             type="font-awesome"
             color="white"
-            containerStyle={{ marginBottom: 20 }}
+            containerStyle={{ marginBottom: RFValue(34) }}
           />
         ),
         drawerLabel: (
@@ -55,7 +56,7 @@ export const AppDrawer = createDrawerNavigator(
               color: "white",
               fontWeight: "bold",
               fontSize: 20,
-              marginBottom: 20,
+              marginBottom: RFValue(34),
             }}
           >
             Settings
@@ -72,7 +73,7 @@ export const AppDrawer = createDrawerNavigator(
             size={24}
             type="font-awesome"
             color="white"
-            containerStyle={{ marginBottom: 20 }}
+            containerStyle={{ marginBottom: RFValue(34) }}
           />
         ),
         drawerLabel: (
@@ -81,7 +82,7 @@ export const AppDrawer = createDrawerNavigator(
               color: "white",
               fontWeight: "bold",
               fontSize: 20,
-              marginBottom: 20,
+              marginBottom: RFValue(34),
             }}
           >
             My Trades
@@ -98,7 +99,7 @@ export const AppDrawer = createDrawerNavigator(
             size={24}
             type="font-awesome"
             color="white"
-            containerStyle={{ marginBottom: 20 }}
+            containerStyle={{ marginBottom: RFValue(34) }}
           />
         ),
         drawerLabel: (
@@ -107,7 +108,7 @@ export const AppDrawer = createDrawerNavigator(
               color: "white",
               fontWeight: "bold",
               fontSize: 20,
-              marginBottom: 20,
+              marginBottom: RFValue(34),
             }}
           >
             Notifications
@@ -124,7 +125,7 @@ export const AppDrawer = createDrawerNavigator(
               color: "white",
               fontWeight: "bold",
               fontSize: 20,
-              marginBottom: 20,
+              marginBottom: RFValue(34),
             }}
           >
             Recieved Items

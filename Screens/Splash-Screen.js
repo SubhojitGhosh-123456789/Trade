@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Text, View, StyleSheet, ActivityIndicator } from "react-native";
+import { RFValue } from "react-native-responsive-fontsize";
 
 export default class SplashScreen extends React.Component {
   constructor(props) {
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textAlign: "center",
     color: "magenta",
-    marginBottom: 50,
+    marginBottom: RFValue(13),
   },
 
   logost: {
@@ -41,6 +42,6 @@ const styles = StyleSheet.create({
     fontSize: 50,
     color: "yellow",
     textAlign: "center",
-    marginBottom: 20,
+    marginBottom: RFValue(34),
   },
 });

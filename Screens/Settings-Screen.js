@@ -6,6 +6,8 @@ import firebase from "firebase";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import MyHeader from "../components/AppHeader";
 
+import { RFValue } from "react-native-responsive-fontsize";
+
 export default class SettingsScreen extends React.Component {
   constructor() {
     super();
@@ -183,7 +185,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",
-    margin: 20,
+    margin: RFValue(34),
     shadowOpacity: 0.44,
     shadowRadius: 50.32,
     elevation: 16,

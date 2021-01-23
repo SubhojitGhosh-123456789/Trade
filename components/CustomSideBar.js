@@ -13,6 +13,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Avatar } from "react-native-elements";
 import db from "../config";
 import firebase from "firebase";
+import { RFValue } from "react-native-responsive-fontsize";
 
 export default class SideBar extends React.Component {
   constructor() {
@@ -125,7 +126,7 @@ export default class SideBar extends React.Component {
 const styles = StyleSheet.create({
   drawerItems: {
     flex: 0.2,
-    marginTop: 50,
+    marginTop: RFValue(13),
   },
   logOutContainer: {
     marginTop: 50,
@@ -159,6 +160,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#1182C6",
     borderRadius: 100,
     alignSelf: "center",
-    marginTop: 20,
+    marginTop: RFValue(34),
   },
 });

@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "react-navigation-tabs";
 import { AppStackNavigator } from "./AppStackNavigator";
 import TradeScreen from "../Screens/Trade-Screen";
 import RequestScreen from "../Screens/Request-Screen";
+import { RFValue } from "react-native-responsive-fontsize";
 
 export const AppTabNavigator = createBottomTabNavigator({
   Donate: {
@@ -12,7 +13,7 @@ export const AppTabNavigator = createBottomTabNavigator({
       tabBarIcon: (
         <Image
           source={require("../assets/trade.png")}
-          style={{ width: 60, height: 60, marginBottom: 20 }}
+          style={{ width: 60, height: 60, marginBottom: RFValue(34) }}
         />
       ),
       tabBarLabel: "Trade",
@@ -24,7 +25,7 @@ export const AppTabNavigator = createBottomTabNavigator({
       tabBarIcon: (
         <Image
           source={require("../assets/request.png")}
-          style={{ width: 40, height: 40, marginBottom: 20 }}
+          style={{ width: 40, height: 40, marginBottom: RFValue(34) }}
         />
       ),
       tabBarLabel: "Request",

@@ -10,6 +10,7 @@ import {
 import db from "../config";
 import firebase from "firebase";
 import { Header, Icon, Card } from "react-native-elements";
+import { RFValue } from "react-native-responsive-fontsize";
 
 export default class TradingScreen extends React.Component {
   constructor(props) {
@@ -178,7 +179,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",
-    margin: 20,
+    margin: RFValue(34),
     shadowOpacity: 0.44,
     shadowRadius: 50.32,
     elevation: 16,

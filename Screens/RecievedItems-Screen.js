@@ -11,6 +11,7 @@ import { ListItem } from "react-native-elements";
 import firebase from "firebase";
 import MyHeader from "../components/AppHeader";
 import { ScrollView } from "react-native-gesture-handler";
+import { RFValue } from "react-native-responsive-fontsize";
 
 export default class RecievedItemsScreen extends React.Component {
   constructor() {
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "yellow",
     textAlign: "center",
-    marginBottom: 20,
+    marginBottom: RFValue(34),
   },
   subContainer: {
     flex: 1,
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-    marginTop: 20,
+    marginTop: RFValue(34),
     width: 200,
     backgroundColor: "#fb5b5a",
     height: 40,

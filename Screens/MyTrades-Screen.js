@@ -11,6 +11,7 @@ import db from "../config.js";
 import firebase from "firebase";
 import MyHeader from "../components/AppHeader";
 import { ScrollView } from "react-native-gesture-handler";
+import { RFValue } from "react-native-responsive-fontsize";
 
 export default class MyTradesScreen extends React.Component {
   static navigationOptions = { header: null };
@@ -178,7 +179,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "yellow",
     textAlign: "center",
-    marginBottom: 20,
+    marginBottom: RFValue(34),
   },
   subContainer: {
     flex: 1,

@@ -11,6 +11,7 @@ import firebase from "firebase";
 import { ListItem, Header } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import MyHeader from "../components/AppHeader";
+import { RFValue } from "react-native-responsive-fontsize";
 
 export default class TradeScreen extends React.Component {
   constructor() {
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "yellow",
     textAlign: "center",
-    marginBottom: 20,
+    marginBottom: RFValue(34),
   },
   subContainer: {
     flex: 1,
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-    marginTop: 20,
+    marginTop: RFValue(34),
     width: 200,
     backgroundColor: "#fb5b5a",
     height: 40,

@@ -57,7 +57,9 @@ export default class AppSwipelist extends React.Component {
             >
               {data.item.ItemName}
             </ListItem.Title>
-            <ListItem.Subtitle style={{ color: "yellow", marginTop: 10 }}>
+            <ListItem.Subtitle
+              style={{ color: "yellow", marginTop: RFValue(68) }}
+            >
               {data.item.Message}
             </ListItem.Subtitle>
           </ListItem.Content>

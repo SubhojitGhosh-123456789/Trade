@@ -5,12 +5,13 @@ import {
   StyleSheet,
   TouchableOpacity,
   ToastAndroid,
-  TextInput,
 } from "react-native";
 import db from "../config";
 import firebase from "firebase";
-import { Header, Card } from "react-native-elements";
 import MyHeader from "../components/AppHeader";
+import { Icon, Input, Card } from "react-native-elements";
+import { RFValue } from "react-native-responsive-fontsize";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default class RequestScreen extends React.Component {
   constructor() {
@@ -273,62 +274,103 @@ export default class RequestScreen extends React.Component {
       return (
         <View style={styles.container}>
           <MyHeader title="Request Item" navigation={this.props.navigation} />
-          <View>
-            <Card>
-              <Card.Title>Hello {this.state.username}!!</Card.Title>
-              <Text style={{ textAlign: "center" }}>
-                Can You Please Enter These Details To Request An Exchange?
-              </Text>
-            </Card>
+          <ScrollView>
+            <View>
+              <Card>
+                <Card.Title>Hello {this.state.username}!!</Card.Title>
+                <Text style={{ textAlign: "center" }}>
+                  Can You Please Enter These Details To Request An Exchange?
+                </Text>
+              </Card>
 
-            <TextInput
-              style={styles.formTextInput}
-              placeholder={"Enter The Item Name"}
-              onChangeText={(text) => {
-                this.setState({
-                  itemName: text,
-                });
-              }}
-              value={this.state.itemName}
-            />
+              <Card borderRadius={10}>
+                <Input
+                  label="Your Item Name"
+                  labelStyle={{ fontWeight: "bold" }}
+                  style={{
+                    marginTop: RFValue(22),
+                  }}
+                  leftIcon={
+                    <Icon
+                      name="address-card"
+                      size={35}
+                      color="gray"
+                      type="font-awesome"
+                    />
+                  }
+                  placeholderTextColor="gray"
+                  onChangeText={(text) => {
+                    this.setState({
+                      itemName: text,
+                    });
+                  }}
+                  value={this.state.itemName}
+                />
 
-            <TextInput
-              style={styles.formTextInput}
-              placeholder={"Value Of The Item In Euros(£)"}
-              maxLength={8}
-              keyboardType={"numeric"}
-              onChangeText={(text) => {
-                this.setState({
-                  itemValue: text,
-                });
-              }}
-              value={this.state.itemValue}
-            />
+                <Input
+                  label="Value Of The Item In Euros"
+                  labelStyle={{ fontWeight: "bold" }}
+                  style={{
+                    marginTop: RFValue(22),
+                  }}
+                  leftIcon={
+                    <Icon
+                      name="eur"
+                      size={35}
+                      color="gray"
+                      type="font-awesome"
+                    />
+                  }
+                  placeholderTextColor="gray"
+                  keyboardType={"numeric"}
+                  onChangeText={(text) => {
+                    this.setState({
+                      itemValue: text,
+                    });
+                  }}
+                  value={this.state.itemValue}
+                />
 
-            <TextInput
-              style={[styles.formTextInput, { height: 150, width: "90%" }]}
-              multiline
-              numberOfLines={8}
-              placeholder={"Description Of The Item"}
-              onChangeText={(text) => {
-                this.setState({
-                  description: text,
-                });
-              }}
-              value={this.state.description}
-            />
+                <Input
+                  label="Description Of Your Item"
+                  labelStyle={{ fontWeight: "bold" }}
+                  style={{
+                    marginTop: RFValue(22),
+                  }}
+                  leftIcon={
+                    <Icon
+                      name="address-card"
+                      size={35}
+                      color="gray"
+                      type="font-awesome"
+                    />
+                  }
+                  numberOfLines={3}
+                  multiline={true}
+                  underlineColorAndroid="transparent"
+                  placeholder=" "
+                  placeholderTextColor="gray"
+                  onChangeText={(text) => {
+                    this.setState({
+                      description: text,
+                    });
+                  }}
+                  value={this.state.description}
+                />
+              </Card>
 
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                this.request(this.state.itemName, this.state.description);
-              }}
-            >
-              <Text style={{ color: "white", fontWeight: "bold" }}>
-                Request Exchange
-              </Text>
-            </TouchableOpacity>
-          </View>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  this.request(this.state.itemName, this.state.description);
+                }}
+              >
+                <Text style={{ color: "white", fontWeight: "bold" }}>
+                  Request Exchange
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
         </View>
       );
     }
@@ -346,9 +388,9 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "yellow",
     textAlign: "center",
-    marginBottom: 20,
+    marginBottom: RFValue(34),
   },
-  formTextInput: {
+  formInput: {
     borderWidth: 3,
     borderColor: "gray",
     backgroundColor: "white",
@@ -356,7 +398,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: "75%",
     textAlign: "center",
-    marginTop: 30,
+    marginTop: RFValue(22),
     alignSelf: "center",
   },
   button: {
@@ -366,7 +408,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",
-    margin: 20,
+    margin: RFValue(34),
     shadowOpacity: 0.44,
     shadowRadius: 50.32,
     elevation: 16,
