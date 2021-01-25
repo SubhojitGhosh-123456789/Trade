@@ -173,9 +173,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#00547A",
   },
   loginBtn: {
-    width: "75%",
+    width: RFValue(0.75),
     backgroundColor: "#fb5b5a",
-    height: 40,
+    height: RFValue(17),
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",

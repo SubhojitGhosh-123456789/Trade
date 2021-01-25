@@ -95,9 +95,9 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: RFValue(34),
-    width: 200,
+    width: RFValue(3.5),
     backgroundColor: "#fb5b5a",
-    height: 40,
+    height: RFValue(1.7),
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",

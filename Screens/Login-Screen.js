@@ -40,7 +40,7 @@ export default class LoginScreen extends React.Component {
         visible={this.state.isModalVisible}
       >
         <View style={styles.modalContainer}>
-          <ScrollView style={{ width: "100%", height: "100%" }}>
+          <ScrollView style={{ width: RFValue(1), height: RFValue(1) }}>
             <View style={styles.inputView}>
               <View style={styles.modalView}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -63,7 +63,7 @@ export default class LoginScreen extends React.Component {
                         fontSize: 25,
                         color: "red",
                         textAlign: "center",
-                        marginTop: 20,
+                        marginTop: RFValue(34),
                       }}
                     >
                       X
@@ -260,7 +260,7 @@ export default class LoginScreen extends React.Component {
           <View>
             <Image
               source={require("../assets/bg.png")}
-              style={{ width: "100%", height: 300 }}
+              style={{ width: RFValue(1), height: RFValue(2.5) }}
             />
           </View>
 
@@ -312,13 +312,13 @@ export default class LoginScreen extends React.Component {
           <View>
             <TouchableOpacity
               style={{
-                width: 200,
+                width: RFValue(3.5),
                 backgroundColor: "#fb5b5a",
-                height: 38,
+                height: RFValue(1.3),
                 borderRadius: 5,
                 alignItems: "center",
                 justifyContent: "center",
-                marginTop: 20,
+                marginTop: RFValue(34),
                 borderWidth: 2,
                 borderColor: "white",
                 alignSelf: "center",
@@ -337,7 +337,7 @@ export default class LoginScreen extends React.Component {
           <View
             style={{
               flexDirection: "row",
-              marginTop: 30,
+              marginTop: RFValue(22),
               alignItems: "center",
               textAlign: "center",
               justifyContent: "center",
@@ -365,13 +365,13 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
   inputView: {
-    marginBottom: 20,
+    marginBottom: RFValue(34),
     justifyContent: "center",
   },
   modalView: {
     backgroundColor: "#FCE0B1",
     borderRadius: 20,
-    width: "100%",
+    width: RFValue(1),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -380,16 +380,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    marginTop: 20,
+    marginTop: RFValue(34),
   },
   loginBtn: {
-    width: 200,
+    width: RFValue(3.5),
     backgroundColor: "#fb5b5a",
-    height: 38,
+    height: RFValue(1.5),
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",
-    margin: 20,
+    margin: RFValue(34),
     borderWidth: 2,
     borderColor: "white",
   },
@@ -402,18 +402,18 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: "orange",
     textAlign: "center",
-    marginTop: 20,
-    marginRight: 100,
+    marginTop: RFValue(34),
+    marginRight: RFValue(7),
   },
   loginBox: {
     borderWidth: 2,
     borderColor: "blue",
     backgroundColor: "white",
     borderRadius: 25,
-    height: 50,
-    width: 300,
+    height: RFValue(13),
+    width: RFValue(2.4),
     textAlign: "center",
-    marginTop: 30,
+    marginTop: RFValue(22),
   },
 
   wText: {
